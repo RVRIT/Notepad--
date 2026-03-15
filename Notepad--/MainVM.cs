@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notepad__
 {
@@ -21,9 +16,13 @@ namespace Notepad__
 
         public MainVM()
         {
-            var fisierInitial = new FileVM();
+            var fisierInitial = new FileVM { Name = "Nou" };
             FileDeschise.Add(fisierInitial);
             FileActiv = fisierInitial;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string nume) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nume));
     }
 }

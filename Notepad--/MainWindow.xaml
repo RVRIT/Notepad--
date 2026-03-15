@@ -3,20 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Notepad__"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <DockPanel >
-            <Menu DockPanel.Dock="Top" Height="18">
-                <MenuItem Header="File" DataContext="FileVM">
-                    <MenuItem Header="New"/>
-                    <MenuItem Header="Open"/>
-                    <MenuItem Header="Save"/>
-                    <MenuItem Header="Save As"/>
-                </MenuItem>
-                <MenuItem Header="Test"/>
-            </Menu>
-        </DockPanel>
-    </Grid>
+        Title="Notepad" Height="450" Width="800">
+
+    <DockPanel LastChildFill="True">
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New"     Command="{Binding FileActiv.NewFileCommand}"/>
+                <MenuItem Header="Open"    Command="{Binding FileActiv.OpenFileCommand}"/>
+                <MenuItem Header="Save"    Command="{Binding FileActiv.SaveFileCommand}"/>
+                <MenuItem Header="Save As" Command="{Binding FileActiv.SaveAsFileCommand}"/>
+            </MenuItem>
+        </Menu>
+        <TreeView DockPanel.Dock="Left"
+                  Width="200"
+                  ItemsSource="{Binding FileDeschise}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            </TreeView>
+                <TextBox Text="{Binding FileActiv.Content, UpdateSourceTrigger=PropertyChanged}"
+                 AcceptsReturn="True"
+                 AcceptsTab="True"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
+                 FontFamily="Consolas"
+                 FontSize="14"/>
+
+    </DockPanel>
 </Window>
