@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Input;
 
@@ -29,13 +30,27 @@ public class MainVM : INotifyPropertyChanged
     public ICommand NewFileCommand { get; }
     public ICommand OpenFileCommand { get; }
     public ICommand CloseFileCommand { get; }
-
+    public ICommand CloseAllFilesCommand { get; }
+    public ICommand ExitCommand { get; }
 
     public MainVM()
     {
         NewFileCommand = new RelayCommand(_ => NewFile());
         OpenFileCommand = new RelayCommand(_ => OpenFile());
         CloseFileCommand = new RelayCommand(f => CloseFile(f as FileVM), f => FileDeschise.Count > 1);
+        CloseAllFilesCommand = new RelayCommand(_ =>
+        {
+            while (FileDeschise.Count > 0) if (!CloseFile(FileDeschise[0])) return; ;
+        }, _ => FileDeschise.Count > 0);
+        ExitCommand = new RelayCommand(_ =>
+        {
+            while (FileDeschise.Count > 0)
+            {
+                if(!CloseFile(FileDeschise[0]))
+                { return; }
+            }
+            Application.Current.Shutdown();
+        });
         ToggleTreeViewCommand = new RelayCommand(_ => ToggleTreeView());
         LoadDrives();
         NewFile();
@@ -59,7 +74,7 @@ public class MainVM : INotifyPropertyChanged
     private void ToggleTreeView() => ShowTreeView = !ShowTreeView;
     private void NewFile()
     {
-        var f = new FileVM { Name = "File " + (FileDeschise.Count()+1).ToString() };
+        var f = new FileVM { Name = "File " + (FileDeschise.Count()+1).ToString()};
         FileDeschise.Add(f);
         FileActiv = f;
     }
@@ -88,20 +103,19 @@ public class MainVM : INotifyPropertyChanged
         FileDeschise.Add(f);
         FileActiv = f;
     }
-
-    private void CloseFile(FileVM f)
+        public bool CloseFile(FileVM f)
     {
-        if (f == null) return;
+        if (f == null) return false;
         if (f.IsEdited)
         {
             var r = MessageBox.Show("You have unsaved changes. Are you sure you want to continue?",
                                     f.Name, MessageBoxButton.YesNo);
-            if (r != MessageBoxResult.Yes) return;
+            if (r != MessageBoxResult.Yes) return false;
         }
-
         int idx = FileDeschise.IndexOf(f);
         FileDeschise.Remove(f);
-        FileActiv = FileDeschise[Math.Max(0, idx - 1)];
+        FileActiv = FileDeschise.Count > 0 ? FileDeschise[Math.Max(0, idx - 1)] : null!;
+        return true;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

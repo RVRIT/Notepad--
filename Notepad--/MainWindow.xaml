@@ -15,11 +15,11 @@
                 <MenuItem Header="Open File..."    Command="{Binding OpenFileCommand}"/>
                 <MenuItem Header="Save File"    Command="{Binding FileActiv.SaveFileCommand}"/>
                 <MenuItem Header="Save File As..." Command="{Binding FileActiv.SaveAsFileCommand}"/>
-                <MenuItem Header="Close All Files"/>
-                <MenuItem Header="Exit"/>
+                <MenuItem Header="Close All Files" Command="{Binding CloseAllFilesCommand}"/>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="Search">
-                <MenuItem Header="Find..."/>
+                <MenuItem Header="Find..." Click="FindMenuItem_Click"/>
                 <MenuItem Header="Replace..."/>
                 <MenuItem Header="Replace All..."/>
                 <MenuItem Header="All tabs" IsCheckable="True"/>
@@ -46,7 +46,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-        <TabControl ItemsSource="{Binding FileDeschise}"
+        <TabControl Name ="MainTabControl" ItemsSource="{Binding FileDeschise}"
                     SelectedItem="{Binding FileActiv}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
