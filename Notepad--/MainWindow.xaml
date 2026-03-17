@@ -5,33 +5,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Notepad" Height="450" Width="800">
-
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
     <DockPanel LastChildFill="True">
-
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="New"     Command="{Binding FileActiv.NewFileCommand}"/>
-                <MenuItem Header="Open"    Command="{Binding FileActiv.OpenFileCommand}"/>
-                <MenuItem Header="Save"    Command="{Binding FileActiv.SaveFileCommand}"/>
-                <MenuItem Header="Save As" Command="{Binding FileActiv.SaveAsFileCommand}"/>
+                <MenuItem Header="New File"     Command="{Binding NewFileCommand}"/>
+                <MenuItem Header="Open File..."    Command="{Binding OpenFileCommand}"/>
+                <MenuItem Header="Save File"    Command="{Binding FileActiv.SaveFileCommand}"/>
+                <MenuItem Header="Save File As..." Command="{Binding FileActiv.SaveAsFileCommand}"/>
+                <MenuItem Header="Close All Files"/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Search">
+                <MenuItem Header="Find..."/>
+                <MenuItem Header="Replace..."/>
+                <MenuItem Header="Replace All..."/>
+                <MenuItem Header="All tabs" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Toggle Tree View"  Command="{Binding ToggleTreeViewCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" ToolTip="Bulgaru Bogdan Florin 10LF241"/>
             </MenuItem>
         </Menu>
         <TreeView DockPanel.Dock="Left"
-                  Width="200"
-                  ItemsSource="{Binding FileDeschise}">
+          Width="200"
+          ItemsSource="{Binding ExplorerRoots}"
+          Visibility="{Binding ShowTreeView, Converter={StaticResource BoolToVis}}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
-            </TreeView>
-                <TextBox Text="{Binding FileActiv.Content, UpdateSourceTrigger=PropertyChanged}"
-                 AcceptsReturn="True"
-                 AcceptsTab="True"
-                 VerticalScrollBarVisibility="Auto"
-                 HorizontalScrollBarVisibility="Auto"
-                 FontFamily="Consolas"
-                 FontSize="14"/>
-
+        </TreeView>
+        <TabControl ItemsSource="{Binding FileDeschise}"
+                    SelectedItem="{Binding FileActiv}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text=" *"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding IsEdited, Converter={StaticResource BoolToVis}}"/>
+                        <Button Content="✕"
+                                Margin="6,0,0,0"
+                                Width="16" Height="16"
+                                FontSize="9"
+                                Padding="0"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Command="{Binding DataContext.CloseFileCommand,
+                                          RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             FontFamily="Consolas"
+                             FontSize="14"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </DockPanel>
-</Window>
+</Window>   

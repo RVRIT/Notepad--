@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
 
@@ -10,6 +11,12 @@ namespace Notepad__
         private string _name;
         private string _path;
         private string _content;
+        private bool _isEdited;
+        public bool IsEdited
+        {
+            get => _isEdited;
+            set { _isEdited = value; OnPropertyChanged(nameof(IsEdited)); }
+        }
 
         public string Name
         {
@@ -26,43 +33,21 @@ namespace Notepad__
         public string Content
         {
             get => _content;
-            set { _content = value; OnPropertyChanged(nameof(Content)); }
+            set { _content = value; IsEdited = true; OnPropertyChanged(nameof(Content)); }
         }
 
-        public ICommand NewFileCommand { get; }
-        public ICommand OpenFileCommand { get; }
         public ICommand SaveFileCommand { get; }
         public ICommand SaveAsFileCommand { get; }
 
         public FileVM()
         {
-            NewFileCommand = new RelayCommand(_ => NewFile());
-            OpenFileCommand = new RelayCommand(_ => OpenFile());
             SaveFileCommand = new RelayCommand(_ => SaveFile(), _ => !string.IsNullOrEmpty(Content));
             SaveAsFileCommand = new RelayCommand(_ => SaveAsFile(), _ => !string.IsNullOrEmpty(Content));
         }
+        private bool ConfirmDiscard() =>
+        MessageBox.Show("Are you sure you want to continue?", "You have unsaved changes", 
+        MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 
-        private void NewFile()
-        {
-            Name = "Nou";
-            Path = "";
-            Content = "";
-        }
-
-        private void OpenFile()
-        {
-            var dialog = new OpenFileDialog
-            {
-                Filter = "Fisiere text (*.txt)|*.txt|Toate (*.*)|*.*"
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                Path = dialog.FileName;
-                Name = System.IO.Path.GetFileName(Path);
-                Content = File.ReadAllText(Path);
-            }
-        }
 
         private void SaveFile()
         {
@@ -72,6 +57,7 @@ namespace Notepad__
                 return;
             }
             File.WriteAllText(Path, Content);
+            IsEdited = false;
         }
 
         private void SaveAsFile()
@@ -87,6 +73,7 @@ namespace Notepad__
                 Path = dialog.FileName;
                 Name = System.IO.Path.GetFileName(Path);
                 File.WriteAllText(Path, Content);
+                IsEdited = false;
             }
         }
 
