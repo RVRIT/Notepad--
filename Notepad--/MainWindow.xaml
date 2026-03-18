@@ -20,9 +20,7 @@
             </MenuItem>
             <MenuItem Header="Search">
                 <MenuItem Header="Find..." Click="FindMenuItem_Click"/>
-                <MenuItem Header="Replace..."/>
-                <MenuItem Header="Replace All..."/>
-                <MenuItem Header="All tabs" IsCheckable="True"/>
+                <MenuItem Header="Replace..." Click="ReplaceMenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Toggle Tree View"  Command="{Binding ToggleTreeViewCommand}"/>

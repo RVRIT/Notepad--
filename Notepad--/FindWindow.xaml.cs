@@ -18,7 +18,7 @@ namespace Notepad
 
         private int _lastIndex = -1;
         private string _lastTerm = string.Empty;
-
+    
         private void Find_Click(object sender, RoutedEventArgs e)
         {
             var term = SearchBox.Text;

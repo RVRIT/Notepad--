@@ -53,7 +53,50 @@ public class MainVM : INotifyPropertyChanged
         });
         ToggleTreeViewCommand = new RelayCommand(_ => ToggleTreeView());
         LoadDrives();
-        NewFile();
+        LoadConfig();
+    }
+    private void LoadConfig()
+    {
+        var config = ConfigService.Load();
+        ShowTreeView = config.ShowTreeView;
+
+        if (config.OpenFiles.Any())
+        {
+            foreach (var file in config.OpenFiles)
+            {
+                var f = new FileVM
+                {
+                    Name = file.Name,
+                    Path = file.Path,
+                    Content = file.Content,
+                    IsEdited = file.IsEdited
+                };
+                FileDeschise.Add(f);
+            }
+            var active = FileDeschise.FirstOrDefault(f => f.Path == config.ActiveFilePath)
+                         ?? FileDeschise.First();
+            FileActiv = active;
+        }
+        else
+        {
+            NewFile();
+        }
+    }
+    public void SaveConfig()
+    {
+        var config = new AppConfig
+        {
+            ShowTreeView = ShowTreeView,
+            ActiveFilePath = FileActiv?.Path ?? string.Empty,
+            OpenFiles = FileDeschise.Select(f => new OpenFileConfig
+            {
+                Path = f.Path,
+                Name = f.Name,
+                Content = f.Content,
+                IsEdited = f.IsEdited
+            }).ToList()
+        };
+        ConfigService.Save(config);
     }
     private void LoadDrives()
     {

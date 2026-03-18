@@ -17,6 +17,9 @@ namespace Notepad
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             var vm = (MainVM)DataContext;
+
+            vm.SaveConfig();
+
             foreach (var f in vm.FileDeschise.ToList())
             {
                 if (!vm.CloseFile(f))
@@ -27,8 +30,15 @@ namespace Notepad
             }
             base.OnClosing(e);
         }
-
+        private void ReplaceMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = (MainVM)DataContext;
+            var replaceWindow = new ReplaceWindow(vm, GetActiveTextBox);
+            replaceWindow.Owner = this;
+            replaceWindow.Show();
+        }
         private void FindMenuItem_Click(object sender, RoutedEventArgs e) => OpenFind();
+
         private void OpenFind()
         {
             var vm = (MainVM)DataContext;

@@ -15,7 +15,6 @@
                 <Button Content="Find Prev" Width="70" Margin="0,0,8,0" Click="FindPrevious_Click"/>
                 <Button Content="Find" Width="70" Margin="0,0,8,0" Click="Find_Click"/>
                 <Button Content="Find Next" Width="70" Margin="0,0,8,0" Click="Find_Click"/>
-                
             </StackPanel>
         </DockPanel>
     </StackPanel>

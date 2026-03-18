@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
 
-namespace Notepad__
+namespace Notepad
 {
     public class FileVM : INotifyPropertyChanged
     {
