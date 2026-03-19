@@ -49,7 +49,7 @@ A Notepad++-inspired text editor built with **C#** and **WPF**.
 
 1. Clone the repository
 ```bash
-   git clone https://github.com/RVRIT/notepad.git
+   git clone https://github.com/RVRIT/Notepad--.git
 ```
 2. Open `Notepad.sln` in Visual Studio
 3. Build and run with `F5`
