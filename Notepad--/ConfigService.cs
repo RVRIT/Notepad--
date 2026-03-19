@@ -4,9 +4,8 @@ using System.Text.Json;
 public static class ConfigService
 {
     private static readonly string ConfigPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "Notepad", "config.json");
-
+    AppDomain.CurrentDomain.BaseDirectory,
+    "config.json");
     public static void Save(AppConfig config)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath)!);
