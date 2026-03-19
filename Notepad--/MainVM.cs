@@ -160,6 +160,17 @@ public class MainVM : INotifyPropertyChanged
         FileActiv = FileDeschise.Count > 0 ? FileDeschise[Math.Max(0, idx - 1)] : null!;
         return true;
     }
+    private ExplorerNodeVM _copiedFolder;
+    public ExplorerNodeVM CopiedFolder
+    {
+        get => _copiedFolder;
+        set
+        {
+            _copiedFolder = value; OnPropertyChanged(nameof(CopiedFolder));
+            OnPropertyChanged(nameof(HasCopiedFolder));
+        }
+    }
+    public bool HasCopiedFolder => _copiedFolder != null;
 
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged(string p) =>

@@ -26,10 +26,11 @@
                 <MenuItem Header="Toggle Tree View"  Command="{Binding ToggleTreeViewCommand}"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About" ToolTip="Bulgaru Bogdan Florin 10LF241"/>
+                <MenuItem Header="About" Click="AboutMenuItem_Click"/>
             </MenuItem>
         </Menu>
-        <TreeView DockPanel.Dock="Left"
+        <TreeView x:Name="ExplorerTree"
+          DockPanel.Dock="Left"
           Width="200"
           ItemsSource="{Binding ExplorerRoots}"
           Visibility="{Binding ShowTreeView, Converter={StaticResource BoolToVis}}">
@@ -40,7 +41,18 @@
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Name}"
+                       MouseLeftButtonDown="TreeNode_MouseLeftButtonDown">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu Visibility="{Binding IsFolder, 
+                                 Converter={StaticResource BoolToVis}}">
+                                <MenuItem Header="New File"    Click="TreeNewFile_Click"/>
+                                <MenuItem Header="Copy Path"   Click="TreeCopyPath_Click"/>
+                                <MenuItem Header="Copy Folder" Click="TreeCopyFolder_Click"/>
+                                <MenuItem Header="Paste Folder" Click="TreePasteFolder_Click"/>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

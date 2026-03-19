@@ -63,6 +63,13 @@ namespace Notepad
             }
             catch { }
         }
+        public void Refresh()
+        {
+            _isExpanded = false;
+            Children.Clear();
+            Children.Add(CreateDummy());
+            IsExpanded = true;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string p) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
