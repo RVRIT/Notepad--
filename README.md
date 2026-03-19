@@ -21,7 +21,7 @@ A Notepad++-inspired text editor built with **C#** and **WPF**.
   - **New File** — creates a file inside that folder and opens it
   - **Copy Path** — copies the folder path to clipboard
   - **Copy Folder** — copies the folder for pasting
-  - **Paste Folder** — pastes the copied folder inside the selected one *(disabled until a folder is copied)*
+  - **Paste Folder** — pastes the copied folder inside the selected one
 
 ### Search & Replace
 - **Find** — search forward and backward through the current tab or all open tabs, with wrap-around
