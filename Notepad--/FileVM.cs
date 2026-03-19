@@ -44,9 +44,6 @@ namespace Notepad
             SaveFileCommand = new RelayCommand(_ => SaveFile(), _ => !string.IsNullOrEmpty(Content));
             SaveAsFileCommand = new RelayCommand(_ => SaveAsFile(), _ => !string.IsNullOrEmpty(Content));
         }
-        private bool ConfirmDiscard() =>
-        MessageBox.Show("Are you sure you want to continue?", "You have unsaved changes", 
-        MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 
 
         private void SaveFile()
@@ -64,7 +61,7 @@ namespace Notepad
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "Fisiere text (*.txt)|*.txt",
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*",
                 FileName = Name
             };
 

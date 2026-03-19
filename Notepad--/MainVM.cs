@@ -1,11 +1,8 @@
 ﻿using Microsoft.Win32;
 using Notepad;
-using Notepad__;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Input;
 
@@ -126,7 +123,7 @@ public class MainVM : INotifyPropertyChanged
     {
         var dialog = new OpenFileDialog
         {
-            Filter = "Fisiere text (*.txt)|*.txt|Toate (*.*)|*.*"
+            Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
         };
         if (dialog.ShowDialog() != true) return;
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-    public class AppConfig
+﻿public class AppConfig
 {
     public bool ShowTreeView { get; set; } = true;
     public List<OpenFileConfig> OpenFiles { get; set; } = new();
