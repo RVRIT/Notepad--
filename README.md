@@ -1,4 +1,4 @@
-# Notepad++
+# Notepad--
 
 A Notepad++-inspired text editor built with **C#** and **WPF**.
 
